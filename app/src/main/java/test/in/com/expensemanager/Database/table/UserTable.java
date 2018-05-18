@@ -20,7 +20,7 @@ public class UserTable {
         mDb = new DbScheme(context);
     }
 
-    public void insertMember(String name, int groupId) {
+    public boolean insertMember(String name, int groupId) {
 
         SQLiteDatabase database = mDb.getWritableDatabase();
 
@@ -29,8 +29,9 @@ public class UserTable {
         values.put(DbScheme.USER_GROUP_ID, groupId);
         values.put(DbScheme.USER_CREATE_TIME, Utils.getCurrentTime());
 
-        database.insert(DbScheme.TABLE_MEMBER, null, values);
+        long result = database.insert(DbScheme.TABLE_MEMBER, null, values);
         database.close();
+        return result>0;
     }
 
     public void updateGroupId(int userId, int groupId) {
