@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
@@ -41,6 +43,7 @@ public class ExpenseCountFragment extends Fragment {
     View rootview;
     ExpenseListAdapter members_Adapter;
     RecyclerView my_recycler_view;
+    TextView total_expense,share_expense;
     private List<ExpenseModel> member_list;
     MembersModel members_model_obj;
     FloatingActionButton member_add_button;
@@ -68,8 +71,20 @@ public class ExpenseCountFragment extends Fragment {
         expenseTable = new ExpenseTable(getActivity());
         my_recycler_view = (RecyclerView) rootview.findViewById(R.id.my_recycler_view);
         member_add_button = (FloatingActionButton) rootview.findViewById(R.id.member_add_button);
+        total_expense = (TextView) rootview.findViewById(R.id.total_expense);
+        share_expense = (TextView) rootview.findViewById(R.id.share_expense);
 
-
+        if(Constants.userscount!=0) {
+            total_expense.setText("Total Amount Spent: " + expenseTable.getAllExpenseAmountByGroupId(Constants.groupid));
+            float share = 0f;
+            share = expenseTable.getAllExpenseAmountByGroupId(Constants.groupid) / Constants.userscount;
+            share_expense.setText("Share: " + share);
+        }
+        else
+        {
+            total_expense.setText("Total Amount Spent:Rs.0");
+            share_expense.setText("Share: Rs.0" );
+        }
         my_recycler_view.setHasFixedSize(true);
 
         // use a linear layout manager
@@ -97,86 +112,92 @@ public class ExpenseCountFragment extends Fragment {
         member_add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.expense_add_form, (ViewGroup) getActivity().findViewById(R.id.layout_root));
+                if(Constants.userscount!=0) {
+                    LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+                    View layout = inflater.inflate(R.layout.expense_add_form, (ViewGroup) getActivity().findViewById(R.id.layout_root));
 //layout_root should be the name of the "top-level" layout node in the dialog_layout.xml file.
-                final EditText nameBox = (EditText) layout.findViewById(R.id.name);
-                final EditText amount = (EditText) layout.findViewById(R.id.amount);
+                    final EditText nameBox = (EditText) layout.findViewById(R.id.name);
+                    final EditText amount = (EditText) layout.findViewById(R.id.amount);
 
-                userspinner = (MaterialBetterSpinner) layout.findViewById(R.id.hours_data_spinner);
-                List<String> list = new ArrayList<>();
-                list = new ArrayList<String>();
+                    userspinner = (MaterialBetterSpinner) layout.findViewById(R.id.hours_data_spinner);
+                    List<String> list = new ArrayList<>();
+                    list = new ArrayList<String>();
 
-                final List<UserModel> users = user_obj.getUsersByGroup(Constants.groupid);
+                    final List<UserModel> users = user_obj.getUsersByGroup(Constants.groupid);
 
-                for (UserModel model : users){
-                    list.add(model.getName());
-                }
-
-                final String[] SPINNERLIST =  list.toArray(new String[list.size()]);
-                //String[] SPINNERLIST =   {"Android Material Design", "Material Design Spinner", "Spinner Using Material Library", "Material Spinner Example"};
-
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
-                        android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
-
-                userspinner.setAdapter(arrayAdapter);
-
-                userspinner.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                    for (UserModel model : users) {
+                        list.add(model.getName());
                     }
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    final String[] SPINNERLIST = list.toArray(new String[list.size()]);
+                    //String[] SPINNERLIST =   {"Android Material Design", "Material Design Spinner", "Spinner Using Material Library", "Material Spinner Example"};
 
-                    }
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),
+                            android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
 
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        String user = s.toString();
-                        for (int i=0;i<SPINNERLIST.length;i++){
-                            if (user.equalsIgnoreCase(SPINNERLIST[i])){
-                                spinnerPosition = i;
-                                break;
+                    userspinner.setAdapter(arrayAdapter);
+
+                    userspinner.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            String user = s.toString();
+                            for (int i = 0; i < SPINNERLIST.length; i++) {
+                                if (user.equalsIgnoreCase(SPINNERLIST[i])) {
+                                    spinnerPosition = i;
+                                    break;
+                                }
                             }
                         }
-                    }
-                });
-                //Building dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(layout);
-                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        expenseModel.setAmount(amount.getText().toString());
-                        expenseModel.setAmountTitle(nameBox.getText().toString());
-                        expenseModel.setGroupId(Constants.groupid);
-                        expenseModel.setGroupName(Constants.Groupname);
-                        expenseModel.setPaidUserId(users.get(spinnerPosition).getId());
-                        expenseModel.setPaidUserName(users.get(spinnerPosition).getName());
+                    });
+                    //Building dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setView(layout);
+                    builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            expenseModel.setAmount(amount.getText().toString());
+                            expenseModel.setAmountTitle(nameBox.getText().toString());
+                            expenseModel.setGroupId(Constants.groupid);
+                            expenseModel.setGroupName(Constants.Groupname);
+                            expenseModel.setPaidUserId(users.get(spinnerPosition).getId());
+                            expenseModel.setPaidUserName(users.get(spinnerPosition).getName());
 
 
-                        long result =  expenseTable.insertData(expenseModel);
-                        //boolean result =user_table_obj.insertMember(nameBox.getText().toString(), Constants.groupid);
-                        Log.d("EXRESresult","EXRESresult "+result);
-                      //  getMemberlist();
-                        getexpenselist();
-                        dialog.dismiss();
-                        // getdata();
-                        //save info where you want it
+                            long result = expenseTable.insertData(expenseModel);
+                            //boolean result =user_table_obj.insertMember(nameBox.getText().toString(), Constants.groupid);
+                            Log.d("EXRESresult", "EXRESresult " + result);
+                            //  getMemberlist();
+                            getexpenselist();
+                            dialog.dismiss();
+                            // getdata();
+                            //save info where you want it
 
-                    }
+                        }
 
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(),"Please Add users in Trip",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         getexpenselist();

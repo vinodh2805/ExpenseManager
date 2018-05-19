@@ -2,12 +2,33 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:id="@+id/total_layout">
+        <TextView
+            android:id="@+id/total_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textSize="18dp"
+            android:padding="5dp"/>
+        <TextView
+            android:id="@+id/share_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/total_expense"
+            android:layout_marginTop="15dp"
+            android:textSize="18dp"
+            android:padding="5dp"/>
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:layout_below="@+id/total_layout"
         android:layout_weight="1"
         android:scrollbars="vertical" />
     <android.support.design.widget.FloatingActionButton

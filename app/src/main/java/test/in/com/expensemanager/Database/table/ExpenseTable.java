@@ -97,6 +97,26 @@ public class ExpenseTable {
         database.close();
         return models;
     }
+    public float getAllExpenseAmountByGroupId(int groupId) {
+
+
+        SQLiteDatabase database = mDbScheme.getReadableDatabase();
+
+        String QUERY = "SELECT * FROM " + DbScheme.TABLE_EXPENSE+" WHERE "+DbScheme.EXPENSE_GROUP_ID +" = "+groupId;
+
+        Cursor cursor = database.rawQuery(QUERY, null);
+
+        float totalAmount =0f;
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                float amount = Float.valueOf(cursor.getString(cursor.getColumnIndex(DbScheme.EXPENSE_AMOUNT)));
+                totalAmount = totalAmount + amount;
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        database.close();
+        return totalAmount;
+    }
 
 
 }

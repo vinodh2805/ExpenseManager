@@ -43,7 +43,9 @@ public class ExpenseListAdapter extends
 
         final int pos = position;
 
-        viewHolder.groudname.setText(grpList.get(position).getAmountTitle());
+        viewHolder.groupname.setText(grpList.get(position).getAmountTitle());
+        viewHolder.amount.setText("Rs."+grpList.get(position).getAmount());
+        viewHolder.givenby.setText("Paid by "+grpList.get(position).getPaidUserName());
 
 
 
@@ -56,7 +58,7 @@ public class ExpenseListAdapter extends
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView groudname;
+        public TextView groupname,amount,givenby;
 
         public GroupModel singlestudent;
 
@@ -64,7 +66,9 @@ public class ExpenseListAdapter extends
         {
             super(itemLayoutView);
 
-            groudname = (TextView) itemLayoutView.findViewById(R.id.groudname);
+            groupname = (TextView) itemLayoutView.findViewById(R.id.groupname);
+            amount = (TextView) itemLayoutView.findViewById(R.id.amount);
+            givenby = (TextView) itemLayoutView.findViewById(R.id.givenby);
 
 
 
