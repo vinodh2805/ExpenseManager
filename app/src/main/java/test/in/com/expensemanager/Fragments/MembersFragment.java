@@ -111,9 +111,16 @@ public class MembersFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         nameBox.getText();
-                        boolean result =user_table_obj.insertMember(nameBox.getText().toString(),Constants.groupid);
-                        Log.d("EXRESresult","EXRESresult "+result);
-                        getMemberlist();
+                        if(!user_table_obj.isUserNameAlreadyExists(nameBox.getText().toString(),Constants.groupid)) {
+                            boolean result = user_table_obj.insertMember(nameBox.getText().toString(), Constants.groupid);
+
+
+                            getMemberlist();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(),"User already exists",Toast.LENGTH_SHORT).show();
+                        }
                         dialog.dismiss();
                         // getdata();
                         //save info where you want it

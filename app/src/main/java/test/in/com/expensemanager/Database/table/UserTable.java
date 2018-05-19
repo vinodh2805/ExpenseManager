@@ -39,7 +39,7 @@ public class UserTable {
         SQLiteDatabase database = mDb.getReadableDatabase();
 
         String QUERY = "SELECT * FROM " + DbScheme.TABLE_MEMBER + " WHERE "
-                + DbScheme.USER_NAME + " = " + userName + ", "
+                + DbScheme.USER_NAME + " = " + userName + " AND "
                 + DbScheme.USER_GROUP_ID + " = " + groupId;
 
         Cursor cursor = database.rawQuery(QUERY, null);
