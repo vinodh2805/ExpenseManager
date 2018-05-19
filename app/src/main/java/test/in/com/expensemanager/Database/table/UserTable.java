@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import test.in.com.expensemanager.Constants.Constants;
 import test.in.com.expensemanager.Database.DbScheme;
 import test.in.com.expensemanager.Database.Utils;
 import test.in.com.expensemanager.Database.model.UserModel;
@@ -89,7 +90,7 @@ public class UserTable {
                 model.setName(cursor.getString(cursor.getColumnIndex(DbScheme.USER_NAME)));
                 model.setGroupId(cursor.getInt(cursor.getColumnIndex(DbScheme.USER_GROUP_ID)));
                 model.setCreateTime(cursor.getString(cursor.getColumnIndex(DbScheme.USER_CREATE_TIME)));
-
+                Constants.userscount=Constants.userscount+1;
                 memberModels.add(model);
             } while (cursor.moveToNext());
 
