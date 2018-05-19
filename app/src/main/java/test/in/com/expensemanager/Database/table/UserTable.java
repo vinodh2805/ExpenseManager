@@ -32,7 +32,30 @@ public class UserTable {
 
         long result = database.insert(DbScheme.TABLE_MEMBER, null, values);
         database.close();
-        return result>0;
+        return result > 0;
+    }
+
+    public boolean isUserNameAlreadyExists(String userName, int groupId) {
+        SQLiteDatabase database = mDb.getReadableDatabase();
+
+        String QUERY = "SELECT * FROM " + DbScheme.TABLE_MEMBER + " WHERE "
+                + DbScheme.USER_NAME + " = " + userName + ", "
+                + DbScheme.USER_GROUP_ID + " = " + groupId;
+
+        Cursor cursor = database.rawQuery(QUERY, null);
+
+        if (cursor != null && cursor.getCount() > 0) {
+            //already exists
+            cursor.close();
+            return true;
+        } else {
+            //new user
+            assert cursor != null;
+            cursor.close();
+            return false;
+        }
+
+
     }
 
     public void updateGroupId(int userId, int groupId) {
@@ -90,7 +113,7 @@ public class UserTable {
                 model.setName(cursor.getString(cursor.getColumnIndex(DbScheme.USER_NAME)));
                 model.setGroupId(cursor.getInt(cursor.getColumnIndex(DbScheme.USER_GROUP_ID)));
                 model.setCreateTime(cursor.getString(cursor.getColumnIndex(DbScheme.USER_CREATE_TIME)));
-                Constants.userscount=Constants.userscount+1;
+                Constants.userscount = Constants.userscount + 1;
                 memberModels.add(model);
             } while (cursor.moveToNext());
 
