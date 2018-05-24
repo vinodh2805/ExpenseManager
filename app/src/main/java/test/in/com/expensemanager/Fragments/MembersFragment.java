@@ -122,8 +122,7 @@ public class MembersFragment extends Fragment {
                             Toast.makeText(getActivity(),"User already exists",Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
-                        // getdata();
-                        //save info where you want it
+
 
                     }
 
@@ -144,39 +143,13 @@ public class MembersFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        // Set title bar
-//        ((WorkaaActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00D1FD")));
-//       ((WorkaaActivity)getActivity()).updateStatusBarColor("#00b3ff");
-
 
     }
 
     private void getMemberlist() {
         member_list.clear();
         member_list.addAll(user_table_obj.getUsersByGroup(Constants.groupid));
-        Log.d("COUNT","COUNT"+member_list.size());
-        Log.d("COUNT","COUNT"+Constants.groupid);
-        /*
-        if(resultSet!=null && resultSet.getCount() > 0)
-        {
-            Log.d("DATABASE","DATABASE"+resultSet.getCount());
-            // studentList.clear();
-            group_List.clear();
-            if (resultSet.moveToFirst())
-            {
-                do {
-                    Log.d("DATABASE","DATABASE"+resultSet.getString(0)+resultSet.getColumnName(0));
-
-                    grp_model_obj = new GroupModel(resultSet.getString(0));
-                    group_List.add(grp_model_obj);
-
-
-                } while (resultSet.moveToNext());
-            }
-        }*/
-
         members_Adapter.notifyDataSetChanged();
-        Log.d("SIZE","SIZE"+member_list.size());
 
     }
 

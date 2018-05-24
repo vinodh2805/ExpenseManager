@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:layout_centerInParent="true"/>
-
     <TextView
         android:id="@+id/textView"
         android:layout_below="@+id/image"

@@ -8,18 +8,18 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import test.in.com.expensemanager.Database.DbScheme;
+import test.in.com.expensemanager.Database.DbHelper;
 import test.in.com.expensemanager.Database.Utils;
 import test.in.com.expensemanager.Database.model.GroupModel;
 import test.in.com.expensemanager.Database.model.UserModel;
 
 public class GroupTable {
 
-    private DbScheme mDb;
+    private DbHelper mDb;
     private UserTable memberTable;
 
     public GroupTable(Context context) {
-        mDb = new DbScheme(context);
+        mDb = new DbHelper(context);
         memberTable = new UserTable(context);
     }
 
@@ -27,10 +27,10 @@ public class GroupTable {
         SQLiteDatabase database = mDb.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DbScheme.GROUP_NAME, groupName);
-        values.put(DbScheme.GROUP_CREATE_TIME, Utils.getCurrentTime());
+        values.put(DbHelper.GROUP_NAME, groupName);
+        values.put(DbHelper.GROUP_CREATE_TIME, Utils.getCurrentTime());
 
-        return database.insert(DbScheme.TABLE_GROUP, null, values);
+        return database.insert(DbHelper.TABLE_GROUP, null, values);
     }
 
     public long addMembers(List<UserModel> models, int groupId) {
@@ -47,11 +47,11 @@ public class GroupTable {
 
         if (!memberIds.trim().isEmpty()) {
             ContentValues values = new ContentValues();
-            values.put(DbScheme.GROUP_USER_ID, memberIds);
-            values.put(DbScheme.GROUP_USER_NAME, memberName);
+            values.put(DbHelper.GROUP_USER_ID, memberIds);
+            values.put(DbHelper.GROUP_USER_NAME, memberName);
 
-            return database.update(DbScheme.TABLE_GROUP, values,
-                    DbScheme.GROUP_ID + " = " + groupId, null);
+            return database.update(DbHelper.TABLE_GROUP, values,
+                    DbHelper.GROUP_ID + " = " + groupId, null);
         } else {
             return 0;
         }
@@ -62,7 +62,7 @@ public class GroupTable {
 
         SQLiteDatabase database = mDb.getReadableDatabase();
 
-        String QUERY = "SELECT * FROM " + DbScheme.TABLE_GROUP;
+        String QUERY = "SELECT * FROM " + DbHelper.TABLE_GROUP;
 
         Cursor cursor = database.rawQuery(QUERY, null);
 
@@ -73,11 +73,11 @@ public class GroupTable {
 
                 GroupModel model = new GroupModel();
 
-                model.setId(cursor.getInt(cursor.getColumnIndex(DbScheme.GROUP_ID)));
-                model.setGroupName(cursor.getString(cursor.getColumnIndex(DbScheme.GROUP_NAME)));
-                model.setUsersId(cursor.getString(cursor.getColumnIndex(DbScheme.GROUP_USER_ID)));
-                model.setUsersName(cursor.getString(cursor.getColumnIndex(DbScheme.GROUP_USER_NAME)));
-                model.setCreatedTime(cursor.getString(cursor.getColumnIndex(DbScheme.GROUP_CREATE_TIME)));
+                model.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.GROUP_ID)));
+                model.setGroupName(cursor.getString(cursor.getColumnIndex(DbHelper.GROUP_NAME)));
+                model.setUsersId(cursor.getString(cursor.getColumnIndex(DbHelper.GROUP_USER_ID)));
+                model.setUsersName(cursor.getString(cursor.getColumnIndex(DbHelper.GROUP_USER_NAME)));
+                model.setCreatedTime(cursor.getString(cursor.getColumnIndex(DbHelper.GROUP_CREATE_TIME)));
 
                 groupModels.add(model);
 

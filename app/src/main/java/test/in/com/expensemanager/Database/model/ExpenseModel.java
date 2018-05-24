@@ -122,4 +122,5 @@ public class ExpenseModel implements Parcelable{
     public String toString(){
         return groupId+" "+groupName+" "+amount+" "+amountTitle+" "+paidUserId+" "+paidUserName+" "+paidTime;
     }
+
 }

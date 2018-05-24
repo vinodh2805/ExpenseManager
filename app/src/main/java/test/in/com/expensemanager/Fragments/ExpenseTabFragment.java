@@ -16,6 +16,7 @@ public class ExpenseTabFragment extends Fragment {
     private TextView content;
     private ImageView image;
 
+
     public static Fragment getInstance(int position) {
         if(position==0) {
             MembersFragment f = new MembersFragment();

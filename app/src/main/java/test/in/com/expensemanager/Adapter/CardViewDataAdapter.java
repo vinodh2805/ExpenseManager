@@ -51,7 +51,6 @@ public class CardViewDataAdapter extends
         viewHolder.groudname.setText(grpList.get(position).getGroupName());
 
 
-
     }
 
     // Return the size arraylist

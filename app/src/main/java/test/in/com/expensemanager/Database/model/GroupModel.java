@@ -86,4 +86,5 @@ public class GroupModel implements Parcelable {
         parcel.writeString(usersId);
         parcel.writeString(usersName);
     }
+
 }

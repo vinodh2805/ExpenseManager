@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DbScheme extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
 
 
     private static final int DB_VERSION = 1;
@@ -52,7 +52,7 @@ public class DbScheme extends SQLiteOpenHelper {
             + EXPENSE_PAID_BY_USER_NAME + " TEXT," + EXPENSE_PAID_TIME + " TEXT)";
 
 
-    public DbScheme(Context context) {
+    public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 

@@ -56,7 +56,7 @@ public class MembersAdapter extends
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView groudname;
+        public TextView groudname,amount_spent;
 
         public GroupModel singlestudent;
 
@@ -65,6 +65,7 @@ public class MembersAdapter extends
             super(itemLayoutView);
 
             groudname = (TextView) itemLayoutView.findViewById(R.id.groudname);
+
 
 
 

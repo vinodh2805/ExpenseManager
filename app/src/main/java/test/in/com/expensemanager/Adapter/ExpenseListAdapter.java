@@ -32,7 +32,6 @@ public class ExpenseListAdapter extends
                 R.layout.expensecardview_row, null);
 
         // create ViewHolder
-
         ExpenseListAdapter.ViewHolder viewHolder = new ExpenseListAdapter.ViewHolder(itemLayoutView);
 
         return viewHolder;

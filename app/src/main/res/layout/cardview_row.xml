@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     card_view:cardCornerRadius="5dp"
-
     card_view:cardUseCompatPadding="true" >
 
     <RelativeLayout
@@ -23,7 +22,6 @@
             android:layout_margin="5dp"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
-
 
     </RelativeLayout>
 

@@ -12,6 +12,7 @@ public class ExpenseAdapter extends FragmentStatePagerAdapter {
     public ExpenseAdapter(FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numOfTabs = numOfTabs;
+
     }
 
     @Override

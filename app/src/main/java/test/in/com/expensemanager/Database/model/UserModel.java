@@ -74,5 +74,6 @@ public class UserModel implements Parcelable {
         parcel.writeString(name);
         parcel.writeString(createTime);
         parcel.writeInt(groupId);
+
     }
 }

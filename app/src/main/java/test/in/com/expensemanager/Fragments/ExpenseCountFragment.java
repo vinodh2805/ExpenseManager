@@ -74,17 +74,7 @@ public class ExpenseCountFragment extends Fragment {
         total_expense = (TextView) rootview.findViewById(R.id.total_expense);
         share_expense = (TextView) rootview.findViewById(R.id.share_expense);
 
-        if(Constants.userscount!=0) {
-            total_expense.setText("Total Amount Spent: " + expenseTable.getAllExpenseAmountByGroupId(Constants.groupid));
-            float share = 0f;
-            share = expenseTable.getAllExpenseAmountByGroupId(Constants.groupid) / Constants.userscount;
-            share_expense.setText("Share: " + share);
-        }
-        else
-        {
-            total_expense.setText("Total Amount Spent:Rs.0");
-            share_expense.setText("Share: Rs.0" );
-        }
+        updateexpense();
         my_recycler_view.setHasFixedSize(true);
 
         // use a linear layout manager
@@ -109,6 +99,7 @@ public class ExpenseCountFragment extends Fragment {
 
             }
         }));
+
         member_add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,6 +169,7 @@ public class ExpenseCountFragment extends Fragment {
                             Log.d("EXRESresult", "EXRESresult " + result);
                             //  getMemberlist();
                             getexpenselist();
+                            updateexpense();
                             dialog.dismiss();
                             // getdata();
                             //save info where you want it
@@ -213,6 +205,20 @@ public class ExpenseCountFragment extends Fragment {
 
     }
 
+    public void updateexpense()
+    {
+        if(Constants.userscount!=0) {
+            total_expense.setText("Total Amount Spent: " + expenseTable.getAllExpenseAmountByGroupId(Constants.groupid));
+            float share = 0f;
+            share = expenseTable.getAllExpenseAmountByGroupId(Constants.groupid) / user_obj.getAllMembersCount();
+            share_expense.setText("Share: " + share);
+        }
+        else
+        {
+            total_expense.setText("Total Amount Spent:Rs.0");
+            share_expense.setText("Share: Rs.0" );
+        }
+    }
     private void getexpenselist() {
         member_list.clear();
         member_list.addAll(expenseTable.getAllExpenseByGroupId(Constants.groupid));
